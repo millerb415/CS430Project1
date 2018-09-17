@@ -10,6 +10,8 @@
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
+from inspect import stack
+from asyncore import loop
 
 
 """
@@ -87,6 +89,25 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
+ # function GRAPH-SEARCH(problem, queueing strategy) returns a solution. or failure
+   # initialize the fringe using the initial stale of problem 
+   # initialize the explored set to be empty 
+   # loop do 
+     #  if the fringe is empty then return failure 
+     #  choose a  node from the fringe (using queueing strategy)
+     #  if node contains goal state then return the corresponding solution 
+     #  if node not in the fringe or explored set then
+       #   add node to the explored set
+        #    expand the chosen node, adding the resulting nodes to the fringe
+        
+    stack = ["hi", "by"]
+    explored = []
+    while  stack:
+        print stack.pop()
+        
+    
+        
+    
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
