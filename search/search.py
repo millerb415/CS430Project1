@@ -9,9 +9,9 @@
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-from inspect import stack
+# Pieter Abbeel (pabbeel@cs.berkeley.edu)
 from asyncore import loop
+from _ast import Str
 
 
 """
@@ -20,6 +20,10 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+from util import *
+import game
+import pacman
+import searchAgents
 
 class SearchProblem:
     """
@@ -91,22 +95,39 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
  # function GRAPH-SEARCH(problem, queueing strategy) returns a solution. or failure
    # initialize the fringe using the initial stale of problem 
-   # initialize the explored set to be empty 
-   # loop do 
-     #  if the fringe is empty then return failure 
+   # done initialize the explored set to be empty 
+   # done loop do 
+     # done if the fringe is empty then return failure 
      #  choose a  node from the fringe (using queueing strategy)
      #  if node contains goal state then return the corresponding solution 
      #  if node not in the fringe or explored set then
        #   add node to the explored set
         #    expand the chosen node, adding the resulting nodes to the fringe
-        
-    stack = ["hi", "by"]
-    explored = []
-    while  stack:
-        print stack.pop()
-        
     
+    stack = util.Stack()
+    pacMan =  problem
+    stack.push(pacMan.startState)
+    explored = pacMan._visitedlist()
+ #   print str(stack.pop())
+    goal = pacMan.goal
+    print str(goal)
+    while not stack.isEmpty():
+        location = stack.pop()
+        if location == goal:
+           break # will be return statement
+        already_explored = False;
+        for x in explored:
+           if x == location:
+               already_explored = True
+                         
+        if already_explored == False:    
+          explored.append(location)
+          
         
+    for x in explored:
+        print x
+#     
+#     return []  
     
     util.raiseNotDefined()
 
