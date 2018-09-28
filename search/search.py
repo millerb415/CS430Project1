@@ -78,6 +78,30 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+def getpath (explored, goal):
+    from game import Directions
+    direction = []
+    prev = explored.pop(0)
+    for current in explored:
+        x, y = prev
+        dx, dy = current
+        if (x-dx) == 1 and dy-y == 0:
+         direction.append(Directions.WEST)
+         prev = current
+        if (x-dx) == -1 and dy-y == 0:
+            direction.append(Directions.EAST)
+            prev = current
+        if (y-dy) == 1 and dx-x == 0:
+            direction.append(Directions.SOUTH) 
+            prev = current   
+        if (y-dy) == -1 and dx-x == 0:
+            direction.append(Directions.NORTH)
+            prev = current
+    
+    
+     
+
+    return direction
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
@@ -94,7 +118,7 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
  # function GRAPH-SEARCH(problem, queueing strategy) returns a solution. or failure
-   # initialize the fringe using the initial stale of problem 
+   # initialize the fringe using the initial state of problem 
    # done initialize the explored set to be empty 
    # done loop do 
      # done if the fringe is empty then return failure 
@@ -107,23 +131,32 @@ def depthFirstSearch(problem):
     stack = util.Stack()
     pacMan =  problem
     stack.push(pacMan.startState)
-    explored = pacMan._visitedlist()
+    explored = []
  #   print str(stack.pop())
     goal = pacMan.goal
-    print str(goal)
     while not stack.isEmpty():
         location = stack.pop()
+        walls = pacMan.walls
         if location == goal:
-           break # will be return statement
+            explored.append(location, goal)
+            
+            return getpath(explored)# will be return statement
         already_explored = False;
         for x in explored:
            if x == location:
                already_explored = True
-                         
-        if already_explored == False:    
-          explored.append(location)
-          
-        
+        dx, dy = location                 
+        if already_explored == False :    
+           explored.append(location)
+        if walls[dx][dy + 1] == False and not already_explored:
+            stack.push((dx ,dy+ 1))
+        if walls[dx + 1][dy] == False and not already_explored:
+            stack.push((dx+1,dy))
+        if walls[dx ][dy-1] == False and not already_explored:
+            stack.push((dx,dy-1))
+        if walls[dx -1 ][dy] == False and not already_explored:
+            stack.push((dx-1,dy))
+
     for x in explored:
         print x
 #     
@@ -134,11 +167,67 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    queue = util.Queue()
+    pacMan =  problem
+    queue.push(pacMan.startState)
+    explored = []
+ #   print str(queue.pop())
+    goal = pacMan.goal
+    while not queue.isEmpty():
+        location = queue.pop()
+        walls = pacMan.walls
+        if location == goal:
+            explored.append(location)
+            
+            return getpath(explored, goal)# will be return statement
+        already_explored = False;
+        for x in explored:
+           if x == location:
+               already_explored = True
+        dx, dy = location                 
+        if already_explored == False :    
+           explored.append(location)
+        if walls[dx][dy + 1] == False and not already_explored:
+            queue.push((dx ,dy+ 1))
+        if walls[dx + 1][dy] == False and not already_explored:
+            queue.push((dx+1,dy))
+        if walls[dx ][dy-1] == False and not already_explored:
+            queue.push((dx,dy-1))
+        if walls[dx -1 ][dy] == False and not already_explored:
+            queue.push((dx-1,dy))
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    queue = util.Queue()
+    pacMan =  problem
+    queue.push(pacMan.startState)
+    explored = []
+ #   print str(queue.pop())
+    goal = pacMan.goal
+    while not queue.isEmpty():
+        location = queue.pop()
+        walls = pacMan.walls
+        if location == goal:
+            explored.append(location)
+            
+            return getpath(explored, goal)# will be return statement
+        already_explored = False;
+        for x in explored:
+           if x == location:
+               already_explored = True
+        dx, dy = location                 
+        if already_explored == False :    
+           explored.append(location)
+        if walls[dx][dy + 1] == False and not already_explored:
+            queue.push((dx ,dy+ 1))
+        if walls[dx + 1][dy] == False and not already_explored:
+            queue.push((dx+1,dy))
+        if walls[dx ][dy-1] == False and not already_explored:
+            queue.push((dx,dy-1))
+        if walls[dx -1 ][dy] == False and not already_explored:
+            queue.push((dx-1,dy))
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
