@@ -78,28 +78,6 @@ def tinyMazeSearch(problem):
     s = Directions.SOUTH
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
-
-def getpath (explored, goal):
-    from game import Directions
-    direction = []
-    prev = explored.pop(0)
-    for current in explored:
-        x, y = prev
-        dx, dy = current
-        if (x-dx) == 1 and dy-y == 0:
-         direction.append(Directions.WEST)
-         prev = current
-        if (x-dx) == -1 and dy-y == 0:
-            direction.append(Directions.EAST)
-            prev = current
-        if (y-dy) == 1 and dx-x == 0:
-            direction.append(Directions.SOUTH) 
-            prev = current   
-        if (y-dy) == -1 and dx-x == 0:
-            direction.append(Directions.NORTH)
-            prev = current
-    
-    
      
 
     return direction
@@ -118,17 +96,7 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
- # function GRAPH-SEARCH(problem, queueing strategy) returns a solution. or failure
-   # initialize the fringe using the initial state of problem 
-   # done initialize the explored set to be empty 
-   # done loop do 
-     # done if the fringe is empty then return failure 
-     #  choose a  node from the fringe (using queueing strategy)
-     #  if node contains goal state then return the corresponding solution 
-     #  if node not in the fringe or explored set then
-       #   add node to the explored set
-        #    expand the chosen node, adding the resulting nodes to the fringe
-    
+
     Stack = util.Stack()
     pacMan =  problem
     Stack.push((pacMan.startState,[], 0))
@@ -136,8 +104,7 @@ def depthFirstSearch(problem):
     goal = pacMan.goal
     while not Stack.isEmpty():
         location , curpath , cost = Stack.pop()
-        if location == goal:
-            problem._expanded += 1
+        if problem.isGoalState(location): 
             return curpath
         already_explored = False;
         for x in explored:
@@ -151,7 +118,6 @@ def depthFirstSearch(problem):
             ccopy.append(cdir)
             ccost += cost  
             Stack.push((cloc, ccopy, ccost))             
-      
     
     util.raiseNotDefined()
 
@@ -165,7 +131,7 @@ def breadthFirstSearch(problem):
     goal = pacMan.goal
     while not Queue.isEmpty():
         location , curpath , cost = Queue.pop()
-        if location == goal:
+        if problem.isGoalState(location):
             problem._expanded += 1
             return curpath
         already_explored = False;
@@ -192,7 +158,7 @@ def uniformCostSearch(problem):
     goal = pacMan.goal
     while not Queue.isEmpty():
         location , curpath , cost = Queue.pop()
-        if location == goal:
+        if problem.isGoalState(location):
             problem._expanded += 1
             return curpath
         already_explored = False;
@@ -231,7 +197,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
    
     while not Queue.isEmpty():
         location , curpath , cost = Queue.pop()
-        if location == goal:
+        if problem.isGoalState(location):
             problem._expanded += 1
             return curpath
         already_explored = False;
