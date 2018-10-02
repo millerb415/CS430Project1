@@ -132,7 +132,6 @@ def breadthFirstSearch(problem):
     while not Queue.isEmpty():
         location , curpath , cost = Queue.pop()
         if problem.isGoalState(location):
-            problem._expanded += 1
             return curpath
         already_explored = False;
         for x in explored:
@@ -159,7 +158,6 @@ def uniformCostSearch(problem):
     while not Queue.isEmpty():
         location , curpath , cost = Queue.pop()
         if problem.isGoalState(location):
-            problem._expanded += 1
             return curpath
         already_explored = False;
         for x in explored:
@@ -198,7 +196,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     while not Queue.isEmpty():
         location , curpath , cost = Queue.pop()
         if problem.isGoalState(location):
-            problem._expanded += 1
+
             return curpath
         already_explored = False;
         for x in problem._visitedlist:
@@ -211,7 +209,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             ccopy= copy(curpath)
             ccopy.append(cdir)
             ccost += cost
-            heur = heuristic(pacMan.startState,problem) + ccost
+            heur = heuristic(location,problem) + ccost
             Queue.push((cloc, ccopy, ccost), heur )
     util.raiseNotDefined()
 
