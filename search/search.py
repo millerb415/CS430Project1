@@ -129,143 +129,84 @@ def depthFirstSearch(problem):
        #   add node to the explored set
         #    expand the chosen node, adding the resulting nodes to the fringe
     
-    print problem.getfood(problem.getfood)
     Stack = util.Stack()
     pacMan =  problem
-    Stack.push((pacMan.startState, [pacMan.startState]))
+    Stack.push((pacMan.startState,[], 0))
     explored = []
- #   print str(Stack.pop())
     goal = pacMan.goal
     while not Stack.isEmpty():
-        location , curpath = Stack.pop()
-        walls = pacMan.walls
+        location , curpath , cost = Stack.pop()
         if location == goal:
             problem._expanded += 1
-            curpath.append(location)
-            return getpath(curpath, goal)
+            return curpath
         already_explored = False;
         for x in explored:
            if x == location:
                already_explored = True
-        dx, dy = location                 
-        if already_explored == False: 
-           problem._expanded += 1   
-           explored.append(location)
-           pacMan._visitedlist.append(location) 
-        if walls[dx][dy + 1] == False and not already_explored:
-            curpath.append((dx ,dy+ 1))
-            Stack.push(((dx ,dy+ 1),copy(curpath)))
-            curpath.pop()
-        if walls[dx + 1][dy] == False and not already_explored:
-            curpath.append((dx + 1 ,dy))
-            Stack.push(((dx + 1 ,dy),copy(curpath)))
-            curpath.pop()
-        if walls[dx ][dy-1] == False and not already_explored:
-            curpath.append((dx ,dy- 1))
-            Stack.push(((dx,dy-1), copy(curpath)) )
-            curpath.pop()
-        if walls[dx -1 ][dy] == False and not already_explored:
-            curpath.append((dx-1 ,dy))
-            Stack.push(((dx-1,dy),copy(curpath)))
-            curpath.pop()
-    for x in explored:
-        print x
-#     
-#     return []  
+        dx, dy = location  
+        if not already_explored:
+         explored.append(location)
+         for cloc, cdir, ccost in problem.getSuccessors(location): 
+            ccopy= copy(curpath)
+            ccopy.append(cdir)
+            ccost += cost  
+            Stack.push((cloc, ccopy, ccost))             
+      
     
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    queue = util.Queue()
+    Queue = util.Queue()
     pacMan =  problem
-    queue.push((pacMan.startState, [pacMan.startState]))
+    Queue.push((pacMan.startState,[], 0))
     explored = []
- #   print str(queue.pop())
     goal = pacMan.goal
-    while not queue.isEmpty():
-        location , curpath = queue.pop()
-        walls = pacMan.walls
+    while not Queue.isEmpty():
+        location , curpath , cost = Queue.pop()
         if location == goal:
-            curpath.append(location)
             problem._expanded += 1
-            return getpath(curpath, goal)
+            return curpath
         already_explored = False;
         for x in explored:
            if x == location:
                already_explored = True
-        dx, dy = location                 
-        if already_explored == False:
-           problem._expanded += 1    
-           explored.append(location)
-           pacMan._visitedlist.append(location) 
-        if walls[dx][dy + 1] == False and not already_explored:
-            curpath.append((dx ,dy+ 1))
-            queue.push(((dx ,dy+ 1),copy(curpath)))
-            curpath.pop()
-        if walls[dx + 1][dy] == False and not already_explored:
-            curpath.append((dx + 1 ,dy))
-            queue.push(((dx + 1 ,dy),copy(curpath)))
-            curpath.pop()
-        if walls[dx ][dy-1] == False and not already_explored:
-            curpath.append((dx ,dy- 1))
-            queue.push(((dx,dy-1), copy(curpath)) )
-            curpath.pop()
-        if walls[dx -1 ][dy] == False and not already_explored:
-            curpath.append((dx-1 ,dy))
-            queue.push(((dx-1,dy),copy(curpath)))
-            curpath.pop()
+        dx, dy = location  
+        if not already_explored:
+         explored.append(location)
+         for cloc, cdir, ccost in problem.getSuccessors(location): 
+            ccopy= copy(curpath)
+            ccopy.append(cdir)
+            ccost += cost  
+            Queue.push((cloc, ccopy, ccost))
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
-    "*** YOUR CODE HERE ***"
-    depth = 0
-    
+    "*** YOUR CODE HERE ***" 
     pacMan =  problem
-    queue = util.PriorityQueue()
-    queue.push((pacMan.startState, [pacMan.startState]), 0)
+    Queue = util.PriorityQueue()
+    Queue.push((pacMan.startState,[], 0), 0)
     explored = []
- #   print str(queue.pop())
     goal = pacMan.goal
-    while not queue.isEmpty():
-        location , curpath = queue.pop()
-        walls = pacMan.walls
+    while not Queue.isEmpty():
+        location , curpath , cost = Queue.pop()
         if location == goal:
             problem._expanded += 1
-            curpath.append(location)
-            return getpath(curpath, goal)
+            return curpath
         already_explored = False;
         for x in explored:
            if x == location:
                already_explored = True
-        dx, dy = location                 
-        if already_explored == False:
-           depth +=1    
-           explored.append(location)
-           problem._expanded += 1
-           pacMan._visitedlist.append(location) 
-        if walls[dx][dy + 1] == False and not already_explored:
-            curpath.append((dx ,dy+ 1))
-           
-            queue.push(((dx ,dy+ 1),copy(curpath)), depth )
-            curpath.pop()
-        if walls[dx + 1][dy] == False and not already_explored:
-            curpath.append((dx + 1 ,dy))
-            
-            queue.push(((dx + 1 ,dy),copy(curpath)), depth)
-            curpath.pop()
-        if walls[dx ][dy-1] == False and not already_explored:
-            curpath.append((dx ,dy- 1))
-           
-            queue.push(((dx,dy-1), copy(curpath)), depth )
-            curpath.pop()
-        if walls[dx -1 ][dy] == False and not already_explored:
-            curpath.append((dx-1 ,dy))
-            
-            queue.push(((dx-1,dy),copy(curpath)),  depth)
-            curpath.pop()
+        dx, dy = location  
+        if not already_explored:
+         explored.append(location)
+         for cloc, cdir, ccost in problem.getSuccessors(location): 
+            ccopy= copy(curpath)
+            ccopy.append(cdir)
+            ccost += cost  
+            Queue.push((cloc, ccopy, ccost), ccost)
     util.raiseNotDefined()
 def copy(self):
     copy = []
@@ -282,55 +223,30 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    depth = 0
-    queue = util.PriorityQueue()
-    path = util.PriorityQueue()
-    
     pacMan =  problem
-    path.push([pacMan.startState], (depth + manhattanDistance( pacMan.startState, pacMan.goal )))
-    queue.push(pacMan.startState, (depth + manhattanDistance( pacMan.startState, pacMan.goal )))
-    explored = []
- #   print str(queue.pop())
+    Queue = util.PriorityQueue()
     goal = pacMan.goal
-    
-    while not queue.isEmpty():
-        curpath = path.pop()
-        depth = depth + 1
-        location = queue.pop()
-        walls = pacMan.walls
+    heur = heuristic(pacMan.startState,problem)
+    Queue.push((pacMan.startState,[], 0), 0 + heur )
+   
+    while not Queue.isEmpty():
+        location , curpath , cost = Queue.pop()
         if location == goal:
             problem._expanded += 1
-            curpath.append(location)
-            return getpath(curpath, goal)
+            return curpath
         already_explored = False;
-        for x in explored:
+        for x in problem._visitedlist:
            if x == location:
                already_explored = True
-        dx, dy = location                 
-        if already_explored == False :
-           problem._expanded += 1    
-           explored.append(location)
-           pacMan._visitedlist.append(location) 
-        if walls[dx][dy + 1] == False and not already_explored:
-            queue.push((dx ,dy+ 1), (depth + manhattanDistance(goal, (dx,dy+1) )))
-            curpath.append((dx ,dy+ 1))
-            path.push(copy(curpath), (depth + manhattanDistance(goal, (dx,dy+1) )))
-            curpath.pop()
-        if walls[dx + 1][dy] == False and not already_explored:
-            queue.push((dx+1,dy),(depth + manhattanDistance( goal, (dx+1,dy) )))
-            curpath.append((dx + 1,dy))
-            path.push(copy(curpath), (depth + manhattanDistance(goal, (dx+1,dy) )))
-            curpath.pop()
-        if walls[dx ][dy-1] == False and not already_explored:
-            queue.push((dx,dy-1), (depth + manhattanDistance(goal, (dx,dy-1) )))
-            curpath.append((dx ,dy - 1))
-            path.push(copy(curpath), (depth + manhattanDistance(goal, (dx,dy-1) )))
-            curpath.pop()
-        if walls[dx -1 ][dy] == False and not already_explored:
-            queue.push((dx-1,dy), (depth + manhattanDistance(goal, (dx-1,dy) )))
-            curpath.append((dx -1,dy))
-            path.push(copy(curpath), (depth + manhattanDistance(goal, (dx-1,dy) )))
-            curpath.pop()
+        dx, dy = location  
+        if not already_explored:
+         problem._visitedlist.append(location)
+         for cloc, cdir, ccost in problem.getSuccessors(location): 
+            ccopy= copy(curpath)
+            ccopy.append(cdir)
+            ccost += cost
+            heur = heuristic(pacMan.startState,problem) + ccost
+            Queue.push((cloc, ccopy, ccost), heur )
     util.raiseNotDefined()
 
 # Abbreviations
