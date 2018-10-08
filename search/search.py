@@ -209,7 +209,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             ccopy= copy(curpath)
             ccopy.append(cdir)
             ccost += cost
-            heur = heuristic(location,problem) + ccost
+            heur = heuristic(cloc,problem) + ccost
             Queue.push((cloc, ccopy, ccost), heur )
     util.raiseNotDefined()
 
