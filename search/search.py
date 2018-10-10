@@ -126,27 +126,37 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     Queue = util.Queue()
     pacMan =  problem
-    Queue.push((pacMan.startState,[], 0))
+    Queue.push(pacMan.getStartState())
     explored = []
-    goal = pacMan.goal
     while not Queue.isEmpty():
-        location , curpath , cost = Queue.pop()
-        if problem.isGoalState(location):
+        location , curpath = Queue.pop()
+        if problem.isGoalState(curpath):
+            print "done"
             return curpath
-        already_explored = False;
-        for x in explored:
-           if x == location:
-               already_explored = True
-        dx, dy = location  
-        if not already_explored:
-         explored.append(location)
-         for cloc, cdir, ccost in problem.getSuccessors(location): 
-            ccopy= copy(curpath)
-            ccopy.append(cdir)
-            ccost += cost  
-            Queue.push((cloc, ccopy, ccost))
+        for cloc, cdir in problem.getSuccessors(location): 
+            length = curpath.__len__()
+            if  length > 0: 
+             if getDirToLast(curpath[length-1]) != cdir:
+              ccopy= copy(curpath)
+              ccopy.append(cdir)  
+              Queue.push((cloc, ccopy))
+            else:
+              ccopy= copy(curpath)
+              ccopy.append(cdir)  
+              Queue.push((cloc, ccopy))
     util.raiseNotDefined()
-
+def getDirToLast(dir):
+    from game import Directions
+    if dir == Directions.NORTH:
+        return Directions.SOUTH
+    if dir == Directions.SOUTH:
+        return Directions.NORTH
+    if dir == Directions.EAST:
+        return Directions.WEST
+    if dir == Directions.WEST:
+        return Directions.EAST
+    
+    
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***" 
