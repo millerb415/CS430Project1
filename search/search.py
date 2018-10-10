@@ -129,32 +129,29 @@ def breadthFirstSearch(problem):
     Queue.push(pacMan.getStartState())
     explored = []
     while not Queue.isEmpty():
-        location , curpath = Queue.pop()
-        if problem.isGoalState(curpath):
+        location , curpath, cornleft = Queue.pop()
+        if problem.isGoalState(cornleft):
             print "done"
             return curpath
         for cloc, cdir in problem.getSuccessors(location): 
-            length = curpath.__len__()
-            if  length > 0: 
-             if getDirToLast(curpath[length-1]) != cdir:
+            length = location.__len__() 
+            notLooping = True
+            for loc  in location:
+                if loc == cloc:
+                    notLooping = False
+                    break
+            if notLooping:
+              ccornleft = copy(cornleft) 
+              ccpath = copy(location)
+              ccpath.append(cloc)
+              if cloc in ccornleft:
+                  ccornleft.pop(ccornleft.index(cloc))
+                  ccpath = [cloc]
               ccopy= copy(curpath)
-              ccopy.append(cdir)  
-              Queue.push((cloc, ccopy))
-            else:
-              ccopy= copy(curpath)
-              ccopy.append(cdir)  
-              Queue.push((cloc, ccopy))
+              ccopy.append(cdir)
+              Queue.push((ccpath, ccopy, ccornleft ))
     util.raiseNotDefined()
-def getDirToLast(dir):
-    from game import Directions
-    if dir == Directions.NORTH:
-        return Directions.SOUTH
-    if dir == Directions.SOUTH:
-        return Directions.NORTH
-    if dir == Directions.EAST:
-        return Directions.WEST
-    if dir == Directions.WEST:
-        return Directions.EAST
+
     
     
 def uniformCostSearch(problem):
