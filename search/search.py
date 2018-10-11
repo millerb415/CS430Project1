@@ -126,32 +126,6 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     Queue = util.Queue()
     pacMan =  problem
-<<<<<<< HEAD
-    Queue.push(pacMan.getStartState())
-    explored = []
-    while not Queue.isEmpty():
-        location , curpath, cornleft = Queue.pop()
-        if problem.isGoalState(cornleft):
-            print "done"
-            return curpath
-        for cloc, cdir in problem.getSuccessors(location): 
-            length = location.__len__() 
-            notLooping = True
-            for loc  in location:
-                if loc == cloc:
-                    notLooping = False
-                    break
-            if notLooping:
-              ccornleft = copy(cornleft) 
-              ccpath = copy(location)
-              ccpath.append(cloc)
-              if cloc in ccornleft:
-                  ccornleft.pop(ccornleft.index(cloc))
-                  ccpath = [cloc]
-              ccopy= copy(curpath)
-              ccopy.append(cdir)
-              Queue.push((ccpath, ccopy, ccornleft ))
-=======
     Queue.push((pacMan.getStartState(),[], 0))
     explored = []
     while not Queue.isEmpty():
@@ -165,7 +139,6 @@ def breadthFirstSearch(problem):
             cpath.append(path)
             costToNext += cost  
             Queue.push((nextState, cpath, costToNext))
->>>>>>> finished question 1 of project 2
     util.raiseNotDefined()
 
     
@@ -225,7 +198,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             cpath=copy(curpath)
             cpath.append(path)
             costToNext += cost  
-            Queue.push((nextState, cpath, costToNext), costToNext + heuristic(state, problem))
+            Queue.push((nextState, cpath, costToNext), costToNext + heuristic(nextState, problem))
     util.raiseNotDefined()
 
 # Abbreviations
