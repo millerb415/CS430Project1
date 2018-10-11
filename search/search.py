@@ -126,6 +126,7 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     Queue = util.Queue()
     pacMan =  problem
+<<<<<<< HEAD
     Queue.push(pacMan.getStartState())
     explored = []
     while not Queue.isEmpty():
@@ -150,6 +151,21 @@ def breadthFirstSearch(problem):
               ccopy= copy(curpath)
               ccopy.append(cdir)
               Queue.push((ccpath, ccopy, ccornleft ))
+=======
+    Queue.push((pacMan.getStartState(),[], 0))
+    explored = []
+    while not Queue.isEmpty():
+        state , curpath , cost = Queue.pop()
+        if problem.isGoalState(state[1]):
+            return curpath
+        if state not in explored:
+         explored.append(state)
+         for nextState, path, costToNext in problem.getSuccessors(state): 
+            cpath=copy(curpath)
+            cpath.append(path)
+            costToNext += cost  
+            Queue.push((nextState, cpath, costToNext))
+>>>>>>> finished question 1 of project 2
     util.raiseNotDefined()
 
     
@@ -195,29 +211,39 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     pacMan =  problem
-    Queue = util.PriorityQueue()
-    goal = pacMan.goal
-    heur = heuristic(pacMan.startState,problem)
-    Queue.push((pacMan.startState,[], 0), 0 + heur )
-   
+    Queue = util.PriorityQueue()   
+    heur = heuristic(pacMan.getStartState(),problem)
+    Queue.push((pacMan.getStartState(),[], 0), 0 + heur )
+    explored = []
+#     while not Queue.isEmpty():
+#         location , curpath , cost = Queue.pop()
+#         if problem.isGoalState(location):
+# 
+#             return curpath
+#         already_explored = False;
+#         for x in problem._visitedlist:
+#            if x == location:
+#                already_explored = True
+#         dx, dy = location  
+#         if not already_explored:
+#          problem._visitedlist.append(location)
+#          for cloc, cdir, ccost in problem.getSuccessors(location): 
+#             ccopy= copy(curpath)
+#             ccopy.append(cdir)
+#             ccost += cost
+#             heur = heuristic(cloc,problem) + ccost
+#             Queue.push((cloc, ccopy, ccost), heur )
     while not Queue.isEmpty():
-        location , curpath , cost = Queue.pop()
-        if problem.isGoalState(location):
-
+        state , curpath , cost = Queue.pop()
+        if problem.isGoalState(state[1]):
             return curpath
-        already_explored = False;
-        for x in problem._visitedlist:
-           if x == location:
-               already_explored = True
-        dx, dy = location  
-        if not already_explored:
-         problem._visitedlist.append(location)
-         for cloc, cdir, ccost in problem.getSuccessors(location): 
-            ccopy= copy(curpath)
-            ccopy.append(cdir)
-            ccost += cost
-            heur = heuristic(cloc,problem) + ccost
-            Queue.push((cloc, ccopy, ccost), heur )
+        if state not in explored:
+         explored.append(state)
+         for nextState, path, costToNext in problem.getSuccessors(state): 
+            cpath=copy(curpath)
+            cpath.append(path)
+            costToNext += cost  
+            Queue.push((nextState, cpath, costToNext), costToNext + heuristic(state, problem))
     util.raiseNotDefined()
 
 # Abbreviations
