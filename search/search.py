@@ -215,24 +215,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     heur = heuristic(pacMan.getStartState(),problem)
     Queue.push((pacMan.getStartState(),[], 0), 0 + heur )
     explored = []
-#     while not Queue.isEmpty():
-#         location , curpath , cost = Queue.pop()
-#         if problem.isGoalState(location):
-# 
-#             return curpath
-#         already_explored = False;
-#         for x in problem._visitedlist:
-#            if x == location:
-#                already_explored = True
-#         dx, dy = location  
-#         if not already_explored:
-#          problem._visitedlist.append(location)
-#          for cloc, cdir, ccost in problem.getSuccessors(location): 
-#             ccopy= copy(curpath)
-#             ccopy.append(cdir)
-#             ccost += cost
-#             heur = heuristic(cloc,problem) + ccost
-#             Queue.push((cloc, ccopy, ccost), heur )
     while not Queue.isEmpty():
         state , curpath , cost = Queue.pop()
         if problem.isGoalState(state[1]):
