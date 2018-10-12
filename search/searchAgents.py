@@ -10,7 +10,6 @@
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
-from Carbon.Aliases import false
 
 
 """
@@ -307,7 +306,7 @@ class CornersProblem(search.SearchProblem):
         """
         "*** YOUR CODE HERE ***"
 
-        for corner in state:
+        for corner in state[1]:
          if not corner:
              return False
         return True
@@ -387,15 +386,19 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
     
     "*** YOUR CODE HERE ***"
-    hur = 999999999999999999999999999
+    hur = 0
     xy1 = state[0]
+    count = 0
     for xy2 in corners:
-     temp = ( abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]) )   
-     if temp < hur:
-            hur = temp
-            
+     if not state[1][count]:
+         temp = ( abs(xy1[0] - xy2[0])**2 + abs(xy1[1] - xy2[1])**2 ) **.5 
+         if temp > hur:
+             hur = temp
+    for x in state[1]:
+        if  not x:
+            hur += 1
     return hur
-    return 0 # Default to trivial solution
+     # Default to trivial solution
 def copy(self):
     copy = []
     for i in self:

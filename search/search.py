@@ -130,7 +130,7 @@ def breadthFirstSearch(problem):
     explored = []
     while not Queue.isEmpty():
         state , curpath , cost = Queue.pop()
-        if problem.isGoalState(state[1]):
+        if problem.isGoalState(state):
             return curpath
         if state not in explored:
          explored.append(state)
@@ -190,7 +190,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     explored = []
     while not Queue.isEmpty():
         state , curpath , cost = Queue.pop()
-        if problem.isGoalState(state[1]):
+        if problem.isGoalState(state):
             return curpath
         if state not in explored:
          explored.append(state)
