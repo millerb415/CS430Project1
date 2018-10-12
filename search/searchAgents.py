@@ -390,7 +390,7 @@ def cornersHeuristic(state, problem):
     hur = 999999999999999999999999999
     xy1 = state[0]
     for xy2 in corners:
-     temp = ( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 )   
+     temp = ( abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]) )   
      if temp < hur:
             hur = temp
             
