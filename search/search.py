@@ -124,12 +124,11 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    Queue = util.Queue()
-    pacMan =  problem
-    Queue.push((pacMan.getStartState(),[], 0))
+    Queue = util.Queue() 
+    Queue.push(( problem.getStartState(),[], 0))
     explored = []
     while not Queue.isEmpty():
-        state , curpath , cost = Queue.pop()
+        state, curpath, cost = Queue.pop()
         if problem.isGoalState(state):
             return curpath
         if state not in explored:
@@ -185,7 +184,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     "*** YOUR CODE HERE ***"
     pacMan =  problem
     Queue = util.PriorityQueue()   
-    heur = heuristic(pacMan.getStartState(),problem)
+    startState = problem.getStartState()
+    heur = heuristic(startState,problem)
     Queue.push((pacMan.getStartState(),[], 0), 0 + heur )
     explored = []
     while not Queue.isEmpty():

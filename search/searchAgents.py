@@ -288,6 +288,10 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        
+    def getPacmanPosition(self):
+        
+        return False
 
     def getStartState(self):
         """
@@ -295,9 +299,8 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-
-       
-        return (self.startingPosition, [False, False, False, False])
+                              
+        return ((self.startingPosition, [False, False, False, False]))
         util.raiseNotDefined()
 
     def isGoalState(self, state):
@@ -348,12 +351,17 @@ class CornersProblem(search.SearchProblem):
                        nextCorns[cornerNum] = True
                        break
                     cornerNum += 1
-                nextState = ((nextx, nexty), nextCorns)
+                    
+                nextState = (next, nextCorns)
                 successors.append( ( nextState, action, 1) )
+            
 
             
         self._expanded += 1 # DO NOT CHANGE
         return successors
+    
+    def getWalls(self):
+        return self.walls
    
     def getCostOfActions(self, actions):
         """
@@ -387,17 +395,18 @@ def cornersHeuristic(state, problem):
     
     "*** YOUR CODE HERE ***"
     hur = 0
-    xy1 = state[0]
     count = 0
+    numCorns = 0
+    xy1 = state[0]
     for xy2 in corners:
      if not state[1][count]:
-         temp = ( abs(xy1[0] - xy2[0])**2 + abs(xy1[1] - xy2[1])**2 ) **.5 
-         if temp > hur:
-             hur = temp
-    for x in state[1]:
-        if  not x:
-            hur += 1
-    return hur
+        temp = abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+        numCorns +=1
+        if temp > hur:
+            hur = temp     
+     count +=1
+        
+    return hur + numCorns
      # Default to trivial solution
 def copy(self):
     copy = []
@@ -496,7 +505,24 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    count = 0 
+    hur = 0
+    x = 0
+    y = 0   
+    for xy1 in foodGrid:
+        
+        for xy2 in xy1:
+            if xy2:
+                temp = (abs(x - position[0])**2 + abs(y - position[1])**2)**0.5
+                count +=1 
+                if hur < temp:
+                 hur = temp
+            y +=1
+        x +=1  
+    
+    if count ==0:
+        return count 
+    return hur / count**.9
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
@@ -581,4 +607,4 @@ def mazeDistance(point1, point2, gameState):
     assert not walls[x1][y1], 'point1 is a wall: ' + str(point1)
     assert not walls[x2][y2], 'point2 is a wall: ' + str(point2)
     prob = PositionSearchProblem(gameState, start=point1, goal=point2, warn=False, visualize=False)
-    return len(search.bfs(prob))
+    return len(search.astar(prob))
