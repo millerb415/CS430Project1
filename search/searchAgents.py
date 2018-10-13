@@ -399,14 +399,18 @@ def cornersHeuristic(state, problem):
     numCorns = 0
     xy1 = state[0]
     for xy2 in corners:
-     if not state[1][count]:
-        temp = abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-        numCorns +=1
+      if not state[1][count]:
+#         temp = abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+#         numCorns +=1
+#         if temp > hur:
+#             hur = temp     
+        temp = mazeDistance(xy1, xy2, problem)
         if temp > hur:
-            hur = temp     
-     count +=1
+             hur = temp
+      count +=1
+
         
-    return hur + numCorns
+    return hur 
      # Default to trivial solution
 def copy(self):
     copy = []
@@ -615,4 +619,4 @@ def mazeDistance(point1, point2, gameState):
     assert not walls[x1][y1], 'point1 is a wall: ' + str(point1)
     assert not walls[x2][y2], 'point2 is a wall: ' + str(point2)
     prob = PositionSearchProblem(gameState, start=point1, goal=point2, warn=False, visualize=False)
-    return len(search.astar(prob))
+    return len(search.astar(prob,heuristic = manhattanHeuristic))
