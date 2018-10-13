@@ -437,6 +437,11 @@ class FoodSearchProblem:
 
     def getStartState(self):
         return self.start
+    def getPacmanPosition(self):
+        return False
+
+    def getWalls(self):
+        return self.walls
 
     def isGoalState(self, state):
         return state[1].count() == 0
@@ -474,6 +479,7 @@ class AStarFoodSearchAgent(SearchAgent):
     def __init__(self):
         self.searchFunction = lambda prob: search.aStarSearch(prob, foodHeuristic)
         self.searchType = FoodSearchProblem
+    
 
 def foodHeuristic(state, problem):
     """
@@ -510,19 +516,21 @@ def foodHeuristic(state, problem):
     x = 0
     y = 0   
     for xy1 in foodGrid:
-        
+        y =0
         for xy2 in xy1:
+            
             if xy2:
-                temp = (abs(x - position[0])**2 + abs(y - position[1])**2)**0.5
+                #temp = abs(x - position[0]) +abs(y - position[1])
+                temp = mazeDistance(position, (x,y), problem)
                 count +=1 
                 if hur < temp:
                  hur = temp
             y +=1
-        x +=1  
+        x +=1 
     
     if count ==0:
         return count 
-    return hur / count**.9
+    return hur + count
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
