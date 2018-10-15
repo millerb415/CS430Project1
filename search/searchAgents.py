@@ -522,7 +522,7 @@ def foodHeuristic(state, problem):
     for xy1 in foodGrid:
         y =0
         for xy2 in xy1:
-            
+             
             if xy2:
                 #temp = abs(x - position[0]) +abs(y - position[1])
                 temp = mazeDistance(position, (x,y), problem)
@@ -531,7 +531,6 @@ def foodHeuristic(state, problem):
                  hur = temp
             y +=1
         x +=1 
-    
     if count ==0:
         return count 
     return hur + count
@@ -565,6 +564,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
+        return search.bfs(problem)
         util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -599,8 +599,10 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         complete the problem definition.
         """
         x,y = state
+     
 
         "*** YOUR CODE HERE ***"
+        return self.food[x][y]
         util.raiseNotDefined()
 
 def mazeDistance(point1, point2, gameState):
